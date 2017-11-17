@@ -1,0 +1,63 @@
+            <div id="edit_user_<?= $user->id ?>" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><i class='menu-icon fa fa-pencil'></i> Edit : <?= $user->first_name . " " . $user->last_name ?></h4>
+              </div>
+              <?php 
+                if(!empty($currentEdit) && $currentEdit->id == $user->id){
+                  echo $this->Form->create($currentEdit);
+                  echo $this->Form->input('id', array('type' => "hidden", 'value' => $currentEdit->id));
+                }else{
+                  echo $this->Form->create($user);
+                  echo $this->Form->input('id', array('type' => "hidden", 'value' => $user->id));
+                } 
+              ?>
+              <?= $this->Form->input('formtype', array('type' => "hidden", 'value' => "1")); ?>
+              <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4"><label class="modallabel">Last name:</label></div>
+          <div class="col-md-8"><?= $this->Form->input('last_name', array('class' => "form-control", "label" => false, "placeholder" => "Last name")); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">First name :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('first_name', array('class' => "form-control", "label" => false, "placeholder" => "First name")); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Email :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('email', array('class' => "form-control", "label" => false, "placeholder" => "Email")); ?></div>
+      </div>
+      <hr>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Role :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('role', array('class' => "form-control", "type" => "select", "label" => false, "placeholder" => "Role", "options" => $roles)); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Status :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('status', array('class' => "form-control", "type" => "select", "label" => false, "options" => $status)); ?></div>
+      </div>
+      <hr>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Username :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('username', array('class' => "form-control", "label" => false, "placeholder" => "Username")); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Password :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('password', array('class' => "form-control", "label" => false, "placeholder" => "Password", "autocomplete" => "new-password")); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Confirm Password :</label></div>
+          <div class="col-md-8"><?= $this->Form->input('confirm_password', array('class' => "form-control", "label" => false, "placeholder" => "Confirmation MDP", "type" => "password", 'value' => $user->password)); ?></div>
+      </div>
+      </div>
+              <div class="modal-footer">
+                <?= $this->Form->button(__('Submit'), array('class' => "btn btn-success")); ?>              
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+              <?= $this->Form->end() ?>
+            </div>
+
+          </div>
+        </div>

@@ -1,0 +1,31 @@
+.modal .form-control, .panel-title{
+	margin-top:8px;
+}
+
+.modallabel{
+	margin-top:15px;
+}
+
+.dataTables_filter input, .dataTables_length select{
+	border:1px solid #c0c0c0;
+	border-radius:3px;
+}
+.text-center{
+	text-align:center;
+}
+.error-message{
+	font-size:9px;
+	margin-bottom:5px;
+	color:red;
+	margin-top:3px;
+}
+.form-error{
+	border:1px solid red;
+	color:red;
+}
+.bg-danger, .bg-success{
+	padding:10px;
+}
+.close.delete{
+	margin-top:0px!important;
+}

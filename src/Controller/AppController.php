@@ -44,6 +44,8 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
+        define("ROOT_DIREC", '/admin');
+
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see http://book.cakephp.org/3.0/en/controllers/components/security.html
@@ -64,6 +66,25 @@ class AppController extends Controller
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
+        }
+    }
+
+    protected function checkfile($file, $name, $directory){
+        $allowed_extensions = array('jpg', "JPG", "jpeg", "JPEG", "png", "PNG");
+        $extension = explode("/", $file['type'])[1];
+        if(!$file['error']){
+            if(in_array($extension, $allowed_extensions)){
+                $dossier = 'C:/wamp/www/admin/webroot/img/'.$directory.'/';
+                if(move_uploaded_file($file['tmp_name'], $dossier . $name . "." . $extension)){
+                    return $name . "." . $extension;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
         }
     }
 }
