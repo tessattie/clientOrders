@@ -61,6 +61,10 @@ class BrandsTable extends Table
             ->requirePresence('featured_image', 'create')
             ->notEmpty('featured_image');
 
+            $validator
+            ->requirePresence('vendor', 'create')
+            ->notEmpty('vendor');
+
         return $validator;
     }
 

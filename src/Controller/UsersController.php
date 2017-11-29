@@ -45,6 +45,7 @@ class UsersController extends AppController
                 if ($this->Users->save($usr)) {
                     $this->set('success', "The user has successfully been saved");
                     $this->request->data = [];
+                    $us = $this->Users->newEntity();
                 }else{
                     $this->set('modalToShow', "edit_user_".$usr->id);
                     $this->set('currentEdit', $usr);

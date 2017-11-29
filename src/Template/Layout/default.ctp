@@ -13,7 +13,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'Caribbean Market S.A.';
 ?>
 <!DOCTYPE html>
 <html>
@@ -52,8 +52,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="<?= ROOT_DIREC ?>/users"><span class="glyphicon glyphicon-user"></span> Users <span class="sr-only">(current)</span></a></li>
-        <li><a href="<?= ROOT_DIREC ?>/brands"><span class="glyphicon glyphicon-bold"></span> Brands</a></li>
+        <li <?= (!empty($this->request->params['controller']) && $this->request->params['controller'] == 'Users') ? 'class="active"' : '' ?>><a href="<?= ROOT_DIREC ?>/users"><span class="glyphicon glyphicon-user"></span> Users <span class="sr-only">(current)</span></a></li>
+        <li <?= (!empty($this->request->params['controller']) && $this->request->params['controller'] == 'Brands') ? 'class="active"' : '' ?>><a href="<?= ROOT_DIREC ?>/brands"><span class="glyphicon glyphicon-bold"></span> Brands</a></li>
+        <li <?= (!empty($this->request->params['controller']) && $this->request->params['controller'] == 'Customers') ? 'class="active"' : '' ?>><a href="<?= ROOT_DIREC ?>/customers"><span class="glyphicon glyphicon-credit-card"></span> Customers</a></li>
+        <li <?= (!empty($this->request->params['controller']) && $this->request->params['controller'] == 'Products') ? 'class="active"' : '' ?>><a href="<?= ROOT_DIREC ?>/products"><span class="glyphicon glyphicon-ruble"></span> Products</a></li>
         <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -74,7 +76,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Users</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -96,7 +97,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <footer>
     </footer>
     <?= $this->Html->script("bootstrap.js") ?>
-    <?= $this->Html->script("datatables.min.js") ?>
     <?= $this->Html->script("script.js") ?>
+    <?= $this->Html->script("datatables.min.js") ?>
+    <?= $this->Html->script("tables.js") ?>
+    
 </body>
 </html>

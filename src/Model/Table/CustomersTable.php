@@ -22,6 +22,8 @@ use Cake\Validation\Validator;
 class CustomersTable extends Table
 {
 
+    public $status = array(0 => "Blocked", 1 => "Active");
+
     /**
      * Initialize method
      *
@@ -55,7 +57,16 @@ class CustomersTable extends Table
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmpty('name')
+            ->add('name', 'isValidName', [
+            'rule' => function ($data, $provider) {
+                $regex = "/^[a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30}$/";
+                if (preg_match($regex, $data)) {
+                    return true;
+                }
+                return 'The name has unauthorized characters';
+            }
+            ]);
 
         $validator
             ->requirePresence('address', 'create')
@@ -63,25 +74,56 @@ class CustomersTable extends Table
 
         $validator
             ->requirePresence('username', 'create')
-            ->notEmpty('username');
+            ->notEmpty('username')
+            ->add('username', 'isValidUsername', [
+            'rule' => function ($data, $provider) {
+                $regex = "/^[A-Za-z][A-Za-z0-9.'-]{5,31}$/";
+                if (preg_match($regex, $data)) {
+                    return true;
+                }
+                return 'The username has unauthorized characters';
+            }
+        ]);
+
+        $validator
+            ->email('email')
+            ->requirePresence('email', 'create')
+            ->notEmpty('email')
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password')
+            ->add('password', [
+            'compare' => [
+                'rule' => ['compareWith', 'confirm_password'], 
+                'message' => "This value must be the same as the password confirmation field"
+                ]
+            ])
+            ->add('confirm_password', [
+            'compare' => [
+                'rule' => ['compareWith', 'password'], 
+                'message' => "This value must be the same as the main password field"
+                ]
+            ]);
 
         $validator
             ->integer('status')
             ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->notEmpty('status')
+            ->add('status', 'isValidStatus', [
+            'rule' => function ($data, $provider) {
+                if ($data >= 0 && $data <= 1) {
+                    return true;
+                }
+                return 'This status is invalid';
+            }
+        ]);
 
         $validator
             ->integer('phone')
             ->requirePresence('phone', 'create')
             ->notEmpty('phone');
-
-        $validator
-            ->requirePresence('logo', 'create')
-            ->notEmpty('logo');
 
         $validator
             ->allowEmpty('customer_message');

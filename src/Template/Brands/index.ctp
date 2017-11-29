@@ -24,6 +24,7 @@
         <thead>
             <tr>
                 <th scope="col" colspan="2" class="text-center">Brand</th>
+                <th scope="col" class="text-center">Vendor</th>
                 <th scope="col" class="actions text-center">Actions</th>
             </tr>
         </thead>
@@ -32,6 +33,7 @@
             <tr>
                 <td class="text-center"><?= $this->Html->image('brands/'.$brand->featured_image, ["width" => "60px", "height" => "auto"]); ?></td>
                 <td class="text-center"><?= h($brand->name) ?></td>
+                <td class="text-center"><?= h($brand->vendor) ?></td>
                 <td class="actions text-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -65,6 +67,7 @@
                 </div>
               </div>
             </div>
+
             <div id="edit_brand_<?= $brand->id ?>" class="modal fade" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
@@ -75,10 +78,10 @@
               </div>
               <?php 
                 if(!empty($currentEdit) && $currentEdit->id == $brand->id){
-                  echo $this->Form->create($currentEdit);
+                  echo $this->Form->create($currentEdit, array('enctype' => 'multipart/form-data'));
                   echo $this->Form->input('id', array('type' => "hidden", 'value' => $currentEdit->id));
                 }else{
-                  echo $this->Form->create($brand);
+                  echo $this->Form->create($brand, array('enctype' => 'multipart/form-data'));
                   echo $this->Form->input('id', array('type' => "hidden", 'value' => $brand->id));
                 } 
               ?>
@@ -86,14 +89,13 @@
               <div class="modal-body">
       <div class="row">
           <div class="col-xs-6 col-md-6 col-md-offset-3 col-xs-offset-3">
-            <label class="btn btn-default btn-file modallabel" id="fileInputLabel">
+            <label class="btn btn-default btn-file modallabel" id="fileInputLabe">
                 <?php if(!empty($brand->featured_image)) : ?>
-                    <?= $this->Form->input('featured_image', array('type' => "hidden", "name" => "featured_image", "value" => $brand->featured_image)); ?>
-                    <img id="thumbnailImg" src="<?= ROOT_DIREC ?>/img/brands/<?= $brand->featured_image ?>" width="100%" height="auto">
+                    <img class="thumbnailImg" src="<?= ROOT_DIREC ?>/img/brands/<?= $brand->featured_image ?>" width="100%" height="auto">
                 <?php else :  ?>
-                    <img id="thumbnailImg" src="<?= ROOT_DIREC ?>/img/thumbnail.jpg" width="100%" height="auto">
+                    <img class="thumbnailImg" src="<?= ROOT_DIREC ?>/img/thumbnail.jpg" width="100%" height="auto">
                 <?php endif ;  ?>
-                 <input type="file" style="display: none;" id="inputFile" name="featured_image">
+                 <input type="file" style="display: none;" class="inputFile" name="featured_image">
             </label>
             <?= (!empty($fileerror)) ? "<div class='error-message'>".$fileerror."</div>" : "" ?>
           </div>
@@ -102,6 +104,10 @@
       <div class="row">
           <div class="col-md-4"><label class="modallabel">Brand name:</label></div>
           <div class="col-md-8"><?= $this->Form->input('name', array('class' => "form-control", "label" => false, "placeholder" => "Brand name", "required" => false, "value" => $brand->name)); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Vendor #:</label></div>
+          <div class="col-md-8"><?= $this->Form->input('vendor', array('class' => "form-control", "label" => false, "placeholder" => "Vendor", "required" => false, "value" => $brand->vendor)); ?></div>
       </div>
       </div>
               <div class="modal-footer">
@@ -112,7 +118,7 @@
             </div>
 
           </div>
-        </div></div>
+        </div>
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -137,11 +143,11 @@
             <label class="btn btn-default btn-file modallabel" id="fileInputLabel">
                 <?php if(!empty($brd->logo)) : ?>
                     <?= $this->Form->input('featured_image', array('type' => "hidden", "name" => "featured_image", "value" => $brd->featured_image)); ?>
-                    <img id="thumbnailImg" src="<?= ROOT_DIREC ?>/img/brd/<?= $cust->logo ?>" width="100%" height="auto">
+                    <img class="thumbnailImg" src="<?= ROOT_DIREC ?>/img/brd/<?= $brd->logo ?>" width="100%" height="auto">
                 <?php else :  ?>
-                    <img id="thumbnailImg" src="<?= ROOT_DIREC ?>/img/thumbnail.jpg" width="100%" height="auto">
+                    <img class="thumbnailImg" src="<?= ROOT_DIREC ?>/img/thumbnail.jpg" width="100%" height="auto">
                 <?php endif ;  ?>
-                 <input type="file" style="display: none;" id="inputFile" name="featured_image">
+                 <input type="file" style="display: none;" class="inputFile" name="featured_image">
             </label>
             <?= (!empty($fileerror)) ? "<div class='error-message'>".$fileerror."</div>" : "" ?>
           </div>
@@ -150,6 +156,10 @@
       <div class="row">
           <div class="col-md-4"><label class="modallabel">Brand name:</label></div>
           <div class="col-md-8"><?= $this->Form->input('name', array('class' => "form-control", "label" => false, "placeholder" => "Brand name", "required" => false, "value" => $brd->name)); ?></div>
+      </div>
+      <div class="row">
+          <div class="col-md-4"><label class="modallabel">Vendor #:</label></div>
+          <div class="col-md-8"><?= $this->Form->input('vendor', array('class' => "form-control", "label" => false, "placeholder" => "Vendor", "required" => false, "value" => $brd->vendor)); ?></div>
       </div>
       </div>
       <div class="modal-footer">

@@ -22,6 +22,8 @@ use Cake\Validation\Validator;
 class ProductsTable extends Table
 {
 
+    public $status = array(0 => "Not Available", 1 => "Available");
+
     /**
      * Initialize method
      *
@@ -74,14 +76,21 @@ class ProductsTable extends Table
             ->allowEmpty('Retail');
 
         $validator
-            ->numeric('CertCode')
             ->requirePresence('CertCode', 'create')
             ->notEmpty('CertCode');
 
         $validator
             ->integer('status')
             ->requirePresence('status', 'create')
-            ->notEmpty('status');
+            ->notEmpty('status')
+            ->add('status', 'isValidStatus', [
+            'rule' => function ($data, $provider) {
+                if ($data >= 0 && $data <= 1) {
+                    return true;
+                }
+                return 'This status is invalid';
+            }
+        ]);
 
         $validator
             ->allowEmpty('featured_image');

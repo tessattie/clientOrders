@@ -21,8 +21,14 @@ class BrandsController extends AppController
         $brd = $this->Brands->newEntity();
         if ($this->request->is(['patch', 'post', 'put'])) {
             if($this->request->data['formtype'] == "2"){
+                $featured_image = false;
+                if(!empty($_FILES['featured_image']['name'])){
+                    $featured_image = $this->checkFile($_FILES['featured_image'], $this->request->data['name'], 'brands');
+                }
                 $brd = $this->Brands->patchEntity($brd, $this->request->data);
-                $brd->featured_image = $this->checkFile($this->request->data['featured_image'], $brd->name, 'brands');
+                if($featured_image != false){
+                    $brd->featured_image = $featured_image;
+                }
                 if ($this->Brands->save($brd)) {
                     $this->set('success', "The brand has successfully been saved");
                     $brd = $this->Brands->newEntity();
@@ -32,17 +38,26 @@ class BrandsController extends AppController
                 }
             }
             if($this->request->data['formtype'] == "1"){
-                $usr = $this->Users->get($this->request->data['id'], [
+                unset($this->request->data['featured_image']);
+                $brd = $this->Brands->get($this->request->data['id'], [
                     'contain' => []
                 ]);
-                $usr = $this->Users->patchEntity($usr, $this->request->data);
-                if ($this->Users->save($usr)) {
+                $featured_image = false;
+                if(!empty($_FILES['featured_image']['name'])){
+                    $featured_image = $this->checkFile($_FILES['featured_image'], $brd->name, 'brands');
+                }
+                $brd = $this->Brands->patchEntity($brd, $this->request->data);
+                if($featured_image != false){
+                    $brd->featured_image = $featured_image;
+                }
+                if ($this->Brands->save($brd)) {
                     $this->set('success', "The brand has successfully been saved");
                     $this->request->data = [];
+                    $brd = $this->Brands->newEntity();
                 }else{
-                    $this->set('modalToShow', "edit_user_".$usr->id);
-                    $this->set('currentEdit', $usr);
-                    $this->set('editerrors', $usr->errors());
+                    $this->set('modalToShow', "edit_user_".$brd->id);
+                    $this->set('currentEdit', $brd);
+                    $this->set('editerrors', $brd->errors());
                 }
             }            
         }
@@ -124,7 +139,7 @@ class BrandsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post', 'delete', 'get']);
         $brand = $this->Brands->get($id);
         if ($this->Brands->delete($brand)) {
             $this->Flash->success(__('The brand has been deleted.'));
